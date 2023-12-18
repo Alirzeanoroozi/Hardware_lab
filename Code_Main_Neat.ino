@@ -15,7 +15,7 @@
 #define MQTT_USERNAME  ""
 #define MQTT_KEY ""
 #define PUBLISH_TOPIC "NodeMCU_Data"
-#define SUBSCRIBE_TOPIC "SUB_TOPIC"
+#define SUBSCRIBE_TOPIC "SUB_TOPIC" // We don't need it now
 #define MSG_BUFFER_SIZE (5)
 #define I2C_SDA 32
 #define I2C_SCL 33
@@ -232,7 +232,7 @@ void loop() {
     snprintf(msg, MSG_BUFFER_SIZE, "%s%s", gps_data.c_str(), pox_data.c_str());
     Serial.print("Publish message: ");
     Serial.println(msg);
-    client.publish(publishTopic, msg);
+    client.publish(PUBLISH_TOPIC, msg);
   }
 
 }
