@@ -4,6 +4,7 @@
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 #include "MAX30100_PulseOximeter.h"
+#include <PubSubClient.h>
 
 #define GPS_BAUDRATE 9600
 #define WLAN_SSID  "alireza noroozi"
@@ -13,11 +14,12 @@
 #define MQTT_PORT  1883
 #define MQTT_USERNAME  ""
 #define MQTT_KEY ""
-#define PUBLISH_TOPIC "PUB_TOPIC"
+#define PUBLISH_TOPIC "NodeMCU_Data"
 #define SUBSCRIBE_TOPIC "SUB_TOPIC"
 #define MSG_BUFFER_SIZE (5)
 #define I2C_SDA 32
 #define I2C_SCL 33
+#define REPORTING_PERIOD_MS     1000
 
 TinyGPSPlus gps; 
 PulseOximeter pox;
@@ -26,6 +28,9 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 unsigned long lastMsg = 0;
 char msg[MSG_BUFFER_SIZE];
+String gps_data;
+String pox_data;
+uint32_t tsLastReport = 0;
 // Adafruit_MQTT_Client mqtt(&espClient, MQTT_BROKER, MQTT_PORT, MQTT_USERNAME, MQTT_KEY); This is for Adafruit
 // Adafruit_MQTT_Subscribe sw_sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/feeds/switch"); This is for Adafruit
 // Adafruit_MQTT_Publish bpm_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/feeds/bpm"); This is for Adafruit
@@ -116,7 +121,7 @@ void setup() {
   Serial2.begin(GPS_BAUDRATE);
   Wire.begin(I2C_SDA, I2C_SCL);
   
-  setup_wifi()
+  setup_wifi();
 
   // setup the mqtt server and callback
   client.setServer(MQTT_BROKER, MQTT_PORT);
