@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+</style>
+</head>
+<body>
+
+
+<table id='majid'>
+</table>
+<script type="text/javascript">
+	function reload(){
+	  var xhr = new XMLHttpRequest();
+	  xhr.open("POST", '/api/', true);
+	  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	  xhr.onreadystatechange = function () {
+	  if (xhr.readyState === 4 && xhr.status === 200) {
+	      var arr = JSON.parse(xhr.responseText);
+	      	$('#majid').empty()
+	      	$('#majid').append(
+	      			`
+	      				<tr>
+	  <th>location_x</th>
+	  <th>location_y</th>
+	  <th>SPO2</th>
+	  <th>BPM</th>
+	  </tr>
+	      			`
+	      		);
+	      for (let i = 0; i < arr.health_history.length; i++) {
+	      	$('#majid').append(
+				`
+						<tr>
+							  <th>${arr.health_history[i].location_x}</th>
+							  <th>${arr.health_history[i].location_y}</th>
+							  <th>${arr.health_history[i].SPO2}</th>
+							  <th>${arr.health_history[i].BPM}</th>
+						</tr>
+				`
+	      		)
+        	}
+	      console.log(1);
+	    }
+	  };
+
+	  xhr.send(
+	  	);
+	}
+	reload();
+
+	setInterval(reload, 0.1)
+</script>
+</body>
+</html>
+
+
