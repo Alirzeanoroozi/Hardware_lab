@@ -181,8 +181,12 @@ void loop() {
     lastMsg = now;
     snprintf(msg, MSG_BUFFER_SIZE, "%s", gps_data.c_str());
     Serial.print("Publish message: ");
-    Serial.println(msg);
-    client.publish(PUBLISH_TOPIC, msg);
+    String mock_data = String(random(1, 10)) + "," +
+                     String(random(1, 10)) + "," +
+                     String(random(1, 10)) + "," +
+                     String(random(1, 10));
+    Serial.println(mock_data);
+    client.publish(PUBLISH_TOPIC, mock_data);
   }
 }
 
