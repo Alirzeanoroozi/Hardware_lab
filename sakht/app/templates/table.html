@@ -77,6 +77,7 @@ tr:nth-child(even) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 	<title>Line Chart</title>
 	<!-- Include Chart.js library -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -85,20 +86,36 @@ tr:nth-child(even) {
 
 
 <body>
+	
+	
 
 	<!-- Create a canvas element for the chart -->
-	<canvas id="lineChart" width="400" height="200"></canvas>
+	<!-- <div style="display: flex">
+		<canvas id="lineChart" style="width: 500px; height: 500px" width="500" height="500"></canvas>
+		<canvas id="lineChart1" style="width: 500px; height: 500px" width="500" height="500"></canvas>
+	</div> -->
+	<div>
+		<canvas id="lineChart" width="auto" height="auto"></canvas>
+		<!-- <canvas id="lineChart1" width="auto" height="auto"></canvas> -->
+	</div>
+	
+
 
 	<script type="text/javascript">
 
 		var time = [];
 		var sop2 = [];
+		var bpm = [];
+		var myChart;
+		var myChart1;
 
 		async function reload() {
 			
-			// time = [];
-			// sop2 = [];
+			time = [];
+			sop2 = [];
+			bpm = [];
 
+			// debugger;
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", '/api/', true);
 
@@ -111,21 +128,22 @@ tr:nth-child(even) {
 					var arr = JSON.parse(xhr.responseText);
 
 					for (let i = 0; i < arr.health_history.length; i++) {
-						console.log(arr.health_history[i].time);
+						// console.log(arr.health_history[i].time);
 						sop2.push(arr.health_history[i].SPO2);
 						time.push(arr.health_history[i].time);
-
+						bpm.push(arr.health_history[i].BPM);
 
 					}
 				};
 			}
+		
 
 			xhr.send(
 			);
+			
 
-			console.log(Math.random())
 
-			var myChart;
+			
 			var ctx = document.getElementById('lineChart').getContext('2d');
 			
 			// Create a line chart
@@ -135,14 +153,16 @@ tr:nth-child(even) {
 			} 
 			myChart = new Chart(ctx, {
 				type: 'line',
+				
 				data: {
 					labels: time,
 					datasets: [{
-						label: 'spo2-time',
-						data: sop2,
+						label: 'bpm',
+						data: bpm,
 						borderColor: 'blue',
 						borderWidth: 2,
-						fill: false
+						pointRadius: 5,
+						fill: true
 					}]
 				},
 				options: {
@@ -161,11 +181,45 @@ tr:nth-child(even) {
 			
 			myChart.update();
 
+			// var ctx1 = document.getElementById('lineChart1').getContext('2d');
+			
+			// // Create a line chart
+			// if (myChart1 instanceof Chart) {
+			// 	myChart1.destroy(); // Destroy the existing chart
+				
+			// } 
+			// myChart1 = new Chart(ctx1, {
+			// 	type: 'line',
+			// 	data: {
+			// 		labels: time,
+			// 		datasets: [{
+			// 			label: 'sop2',
+			// 			data: sop2,
+			// 			borderColor: 'blue',
+			// 			borderWidth: 2,
+			// 			pointRadius: 5,
+			// 			fill: true
+			// 		}]
+			// 	},
+			// 	options: {
+			// 		scales: {
+			// 			x: {
+			// 				type: 'category', // Specify that the x-axis should be treated as a category axis
+			// 				position: 'bottom'
+			// 			},
+			// 			y: {
+			// 				beginAtZero: true
+			// 			}
+			// 		}
+			// 	}
+			// });
+			
+			// myChart1.update();
 		}
 
 		reload()
 		
-		setInterval(reload, 10000)
+		setInterval(reload, 1500)
 	</script>
 	
 
