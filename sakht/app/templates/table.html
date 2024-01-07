@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -49,7 +49,7 @@ tr:nth-child(even) {
 							  <th>${arr.health_history[i].location_x}</th>
 							  <th>${arr.health_history[i].location_y}</th>
 							  <th>${arr.health_history[i].SPO2}</th>
-							  <th>${arr.health_history[i].BPM}</th>
+							  <th>${arr.health_history[i].BPM}</th>z
 						</tr>
 				`
 	      		)
@@ -66,6 +66,109 @@ tr:nth-child(even) {
 	setInterval(reload, 0.1)
 </script>
 </body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Line Chart</title>
+	<!-- Include Chart.js library -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+
+<body>
+
+	<!-- Create a canvas element for the chart -->
+	<canvas id="lineChart" width="400" height="200"></canvas>
+
+	<script type="text/javascript">
+
+		var time = [];
+		var sop2 = [];
+
+		async function reload() {
+			
+			// time = [];
+			// sop2 = [];
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", '/api/', true);
+
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+			xhr.onreadystatechange = await function () {
+
+				if (xhr.readyState === 4 && xhr.status === 200) {
+
+					var arr = JSON.parse(xhr.responseText);
+
+					for (let i = 0; i < arr.health_history.length; i++) {
+						console.log(arr.health_history[i].time);
+						sop2.push(arr.health_history[i].SPO2);
+						time.push(arr.health_history[i].time);
+
+
+					}
+				};
+			}
+
+			xhr.send(
+			);
+
+			console.log(Math.random())
+
+			var myChart;
+			var ctx = document.getElementById('lineChart').getContext('2d');
+			
+			// Create a line chart
+			if (myChart instanceof Chart) {
+				myChart.destroy(); // Destroy the existing chart
+				
+			} 
+			myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: time,
+					datasets: [{
+						label: 'spo2-time',
+						data: sop2,
+						borderColor: 'blue',
+						borderWidth: 2,
+						fill: false
+					}]
+				},
+				options: {
+					scales: {
+						x: {
+							type: 'category', // Specify that the x-axis should be treated as a category axis
+							position: 'bottom'
+						},
+						y: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
+			
+			
+			myChart.update();
+
+		}
+
+		reload()
+		
+		setInterval(reload, 10000)
+	</script>
+	
+
+</body>
+
 </html>
-
-

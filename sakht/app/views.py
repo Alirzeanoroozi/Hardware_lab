@@ -19,7 +19,10 @@ def api(request):
 				'SPO2': h.SPO2,
 				'BPM': h.BPM,
 				'location_x': h.location_x,
-				'location_y': h.location_y
+				'location_y': h.location_y,
+				'time': h.created_at.strftime('%H:%M:%S')
 			}
 			)
+
+
 	return HttpResponse(json.dumps({'health_history': data}))
