@@ -77,6 +77,15 @@ tr:nth-child(even) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		/* Style to center the inner divs */
+		.center-container {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  height: 100vh; /* Adjust the height as needed */
+		}
+	</style>
 	
 	<title>Line Chart</title>
 	<!-- Include Chart.js library -->
@@ -89,15 +98,17 @@ tr:nth-child(even) {
 	
 	
 
-	<!-- Create a canvas element for the chart -->
-	<!-- <div style="display: flex">
-		<canvas id="lineChart" style="width: 500px; height: 500px" width="500" height="500"></canvas>
-		<canvas id="lineChart1" style="width: 500px; height: 500px" width="500" height="500"></canvas>
-	</div> -->
-	<div>
-		<canvas id="lineChart" width="auto" height="auto"></canvas>
-		<!-- <canvas id="lineChart1" width="auto" height="auto"></canvas> -->
+	<!-- Create a canvas element for the chart --> 
+	<div style="display: flex" class="center-container">
+		<div style="width: 500px; height: 500px">
+			<canvas id="lineChart" style="width: 50vw; height: 500px"></canvas>
+		</div>
+		<div style="width: 500px; height: 500px">
+			<canvas id="lineChart1" style="width: 50vw; height: 500px"></canvas>
+		</div>
+
 	</div>
+	
 	
 
 
@@ -140,6 +151,10 @@ tr:nth-child(even) {
 
 			xhr.send(
 			);
+
+			sop2.push(Math.random()*100);
+			bpm.push(Math.random()*100);
+			time.push('12:34:01')
 			
 
 
@@ -181,40 +196,40 @@ tr:nth-child(even) {
 			
 			myChart.update();
 
-			// var ctx1 = document.getElementById('lineChart1').getContext('2d');
+			var ctx1 = document.getElementById('lineChart1').getContext('2d');
 			
-			// // Create a line chart
-			// if (myChart1 instanceof Chart) {
-			// 	myChart1.destroy(); // Destroy the existing chart
+			// Create a line chart
+			if (myChart1 instanceof Chart) {
+				myChart1.destroy(); // Destroy the existing chart
 				
-			// } 
-			// myChart1 = new Chart(ctx1, {
-			// 	type: 'line',
-			// 	data: {
-			// 		labels: time,
-			// 		datasets: [{
-			// 			label: 'sop2',
-			// 			data: sop2,
-			// 			borderColor: 'blue',
-			// 			borderWidth: 2,
-			// 			pointRadius: 5,
-			// 			fill: true
-			// 		}]
-			// 	},
-			// 	options: {
-			// 		scales: {
-			// 			x: {
-			// 				type: 'category', // Specify that the x-axis should be treated as a category axis
-			// 				position: 'bottom'
-			// 			},
-			// 			y: {
-			// 				beginAtZero: true
-			// 			}
-			// 		}
-			// 	}
-			// });
+			} 
+			myChart1 = new Chart(ctx1, {
+				type: 'line',
+				data: {
+					labels: time,
+					datasets: [{
+						label: 'sop2',
+						data: sop2,
+						borderColor: 'blue',
+						borderWidth: 2,
+						pointRadius: 5,
+						fill: true
+					}]
+				},
+				options: {
+					scales: {
+						x: {
+							type: 'category', // Specify that the x-axis should be treated as a category axis
+							position: 'bottom'
+						},
+						y: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
 			
-			// myChart1.update();
+			myChart1.update();
 		}
 
 		reload()
