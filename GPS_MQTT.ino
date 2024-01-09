@@ -102,6 +102,10 @@ void reconnect()
   }
 }
 
+int generateRandomNumber(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
+
 void setup() {
   Serial.begin(115200);
   ss.begin(GPSBaud);
@@ -179,14 +183,16 @@ void loop() {
   if (now - lastMsg > 10000)
   {
     lastMsg = now;
-    snprintf(msg, MSG_BUFFER_SIZE, "%s", gps_data.c_str());
+
+    int randomHeartRate = generateRandomNumber(70, 80);
+    int randomSpO2 = generateRandomNumber(97, 99);
+
+    data = "35.6895,51.3890,2024-01-10-04-51-08;" + String(randomHeartRate) + "," + String(randomSpO2);  // Format: latitude,longitude,year-month-day-hour-minute-second;
+
+    snprintf(msg, MSG_BUFFER_SIZE, "%s", data.c_str());
     Serial.print("Publish message: ");
-    String mock_data = String(random(1, 10)) + "," +
-                     String(random(1, 10)) + "," +
-                     String(random(1, 10)) + "," +
-                     String(random(1, 10));
-    Serial.println(mock_data);
-    client.publish(PUBLISH_TOPIC, mock_data);
+    Serial.println(data);
+    client.publish(PUBLISH_TOPIC, data);
   }
 }
 
