@@ -6,7 +6,7 @@ from django.conf import settings
 from app.models import HealthHistory
 
 def on_connect(client, userdata, flags, rc):
-    # HealthHistory.objects.all().delete()
+    HealthHistory.objects.all().delete()
     print("Connected with result code " + str(rc))
     client.subscribe("Backend_Data")  # The MQTT topic we want to subscribe to
 
@@ -18,7 +18,7 @@ def on_message(client, userdata, msg):
     coordinates, health_data = payload.split(';')
 
     location_x, location_y, timestamp = coordinates.split(',')
-    SPO2, BPM = health_data.split(',')
+    BPM, SPO2 = health_data.split(',')
 
     HealthHistory.objects.create(
         location_x=float(location_x),

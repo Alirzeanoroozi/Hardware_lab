@@ -185,7 +185,7 @@ void loop() {
     lastMsg = now;
 
     int randomHeartRate = generateRandomNumber(70, 80);
-    int randomSpO2 = generateRandomNumber(97, 99);
+    int randomSpO2 = generateRandomNumber(94, 99);
 
     data = "35.6895,51.3890,2024-01-10-04-51-08;" + String(randomHeartRate) + "," + String(randomSpO2);  // Format: latitude,longitude,year-month-day-hour-minute-second;HeartRate,SpO2
 
