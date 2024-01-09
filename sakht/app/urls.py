@@ -13,4 +13,8 @@ urlpatterns = [
         views.api, 
         name='api'
     ),
+    path(
+        'table/', 
+        views.table_view, 
+        name='table_view'),
 ]

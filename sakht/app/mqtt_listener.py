@@ -6,6 +6,7 @@ from django.conf import settings
 from app.models import HealthHistory
 
 def on_connect(client, userdata, flags, rc):
+    # HealthHistory.objects.all().delete()
     print("Connected with result code " + str(rc))
     client.subscribe("Backend_Data")  # The MQTT topic we want to subscribe to
 

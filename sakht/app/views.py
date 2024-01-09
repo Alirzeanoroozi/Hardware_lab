@@ -8,6 +8,11 @@ def table(request):
 	health_history = HealthHistory.objects.all().order_by('-id')[:1000]
 	return render(request, 'table.html', {'health_history': health_history})
 
+def table_view(request):
+    health_history_data = HealthHistory.objects.all()
+
+    context = {'health_history': health_history_data}
+    return render(request, 'table_conventional.html', context)
 
 @csrf_exempt
 def api(request):

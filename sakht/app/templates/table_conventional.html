@@ -1,0 +1,65 @@
+<!-- myapp/templates/myapp/table.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health History Table</title>
+    <!-- Include any additional styles or scripts if needed -->
+</head>
+<body>
+    <table id="majid">
+        <tr>
+            <th>time</th>
+            <th>location_x</th>
+            <th>location_y</th>
+            <th>SPO2</th>
+            <th>BPM</th>
+        </tr>
+        {% for entry in health_history %}
+            <tr>
+                <td>{{ entry.time }}</td>
+                <td>{{ entry.location_x }}</td>
+                <td>{{ entry.location_y }}</td>
+                <td>{{ entry.SPO2 }}</td>
+                <td>{{ entry.BPM }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Include jQuery if not already included -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/api/', true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var arr = JSON.parse(xhr.responseText);
+        
+        $(document).ready(function() {
+            $('#majid').empty();
+            $('#majid').append(`
+                <tr>
+                    <th>time</th>
+                    <th>location_x</th>
+                    <th>location_y</th>
+                    <th>SPO2</th>
+                    <th>BPM</th>
+                </tr>
+            `);
+
+            for (let i = 0; i < arr.health_history.length; i++) {
+                $('#majid').append(`
+                    <tr>
+                        <td>${arr.health_history[i].time}</td>
+                        <td>${arr.health_history[i].location_x}</td>
+                        <td>${arr.health_history[i].location_y}</td>
+                        <td>${arr.health_history[i].SPO2}</td>
+                        <td>${arr.health_history[i].BPM}</td>
+                    </tr>
+                `);
+            }
+            console.log(1);
+        });
+    </script>
+</body>
+</html>
