@@ -2,8 +2,8 @@ from django.db import models
 
 
 class HealthHistory(models.Model):
-	location_x = models.IntegerField()
-	location_y = models.IntegerField()
+	location_x = models.FloatField()
+	location_y = models.FloatField()
 	SPO2 = models.IntegerField(default=0)
 	BPM = models.IntegerField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True, auto_now=False, null=True)
