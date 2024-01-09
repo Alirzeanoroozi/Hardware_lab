@@ -14,19 +14,17 @@ def on_message(client, userdata, msg):
     print(f"Received message: {payload}")
 
     # Parse the payload and create a new instance of HealthHistory
-    data = payload.split(',')
+    coordinates, health_data = payload.split(';')
 
-    if len(data) == 4:
-        location_x, location_y, SPO2, BPM = data
+    location_x, location_y, timestamp = coordinates.split(',')
+    SPO2, BPM = health_data.split(',')
 
-        HealthHistory.objects.create(
-            location_x=int(location_x),
-            location_y=int(location_y),
-            SPO2=int(SPO2),
-            BPM=int(BPM)
-        )
-    else:
-        print("Invalid payload format")
+    HealthHistory.objects.create(
+        location_x=float(location_x),
+        location_y=float(location_y),
+        SPO2=int(SPO2),
+        BPM=int(BPM)
+    )
 
 def start_mqtt_listener():
     client = mqtt.Client()
