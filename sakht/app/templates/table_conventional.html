@@ -38,6 +38,7 @@
                 <td>{{ entry.location_y }}</td>
                 <td>{{ entry.SPO2 }}</td>
                 <td>{{ entry.BPM }}</td>
+                <td><a href="https://www.google.com/maps/search/?api=1&query={{ entry.location_x }},{{ entry.location_y }}" target="_blank">View on Google Maps</a></td>
             </tr>
         {% endfor %}
     </table>
